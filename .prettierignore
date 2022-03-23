@@ -1,0 +1,7 @@
+# Basically just the stuff from ESLint ignore file
+node_modules
+
+/.cache
+/build
+/public/build
+.env
