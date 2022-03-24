@@ -1,4 +1,4 @@
-import { LiveReload } from "remix"
+import { LiveReload, Outlet } from "remix"
 
 export default function App() {
   return (
@@ -9,6 +9,7 @@ export default function App() {
       </head>
       <body>
         Hello world
+        <Outlet />
         <LiveReload />
       </body>
     </html>
