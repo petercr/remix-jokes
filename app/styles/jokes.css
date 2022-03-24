@@ -1,0 +1,16 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 15px;
+  max-width: 66%;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+.form-button {
+  margin-top: 1rem;
+  width: 5rem;
+}
