@@ -1,12 +1,25 @@
-# Welcome to Remix!
+# Welcome to My Jokes App Built on Remix 😂
 
-- [Remix Docs](https://remix.run/docs)
+## This project is currently under construction 👷🏻‍♂️🔧
+
+> Not everything may work
+
+This was built going along with the Jokes App tutorial on their site.
+[Remix Jokes App Tutorial](https://remix.run/docs/en/v1/tutorials/jokes)
 
 ## Development
 
+Make sure to install your dependencies using NPM, Yarn, or PNPM
+
 From your terminal:
 
-```sh
+```shell
+npm install
+```
+
+From your terminal:
+
+```shell
 npm run dev
 ```
 
@@ -16,13 +29,13 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 First, build your app for production:
 
-```sh
+```shell
 npm run build
 ```
 
 Then run the app in production mode:
 
-```sh
+```shell
 npm start
 ```
 
@@ -41,7 +54,7 @@ Make sure to deploy the output of `remix build`
 
 When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
 
-```sh
+```shell
 cd ..
 # create a new project, and pick a pre-configured host
 npx create-remix@latest
