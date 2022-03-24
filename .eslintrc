@@ -1,7 +1,7 @@
 {
   "extends": [
     "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
+    "@remix-run/eslint-config/node"
   ],
   "plugins": [
     "prettier"
@@ -12,6 +12,6 @@
       "error",
       "never"
     ],
-    "comma-dangle": 0
+    "comma-style": 0
   }
 }
