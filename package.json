@@ -4,6 +4,9 @@
   "description": "",
   "license": "",
   "sideEffects": false,
+  "prisma": {
+    "seed": "node --require esbuild-register prisma/seed.ts"
+  },
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
@@ -23,6 +26,7 @@
     "@remix-run/eslint-config": "^1.3.3",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "esbuild-register": "^3.3.2",
     "eslint": "^8.11.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "2.6.0",
