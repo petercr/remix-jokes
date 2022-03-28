@@ -1,17 +1,26 @@
-import { json } from "remix"
+import { Link, json, useLoaderData } from "remix"
+import { db } from "~/utils/db.server"
 import type { LoaderFunction } from "remix"
+import type { Joke } from "@prisma/client"
 
-export const loader: LoaderFunction = async ({ params, request }) => {
-  console.log("params", params)
-  console.log("request", request)
-  return json({ ok: true })
+type LoaderData = { joke: Joke }
+
+export const loader: LoaderFunction = async ({ params }) => {
+  const joke = await db.joke.findUnique({
+    where: { id: params.jokeId },
+  })
+  if (!joke) throw new Error("Joke not found")
+  const data: LoaderData = { joke }
+  return json(data)
 }
 
-export default function jokeId() {
+export default function JokeId() {
+  const data = useLoaderData<LoaderData>()
   return (
     <div>
-      <p>Here comes the setup</p>
-      <p>And here's the punchline!!! </p>
+      <h1>Here is your funny joke: </h1>
+      <p>{data.joke.content}</p>
+      <Link to=".">{data.joke.name} Permalink</Link>
     </div>
   )
 }
