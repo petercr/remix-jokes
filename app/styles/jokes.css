@@ -2,6 +2,14 @@ h1 {
   font-size: 1.25rem;
 }
 
+.top-label {
+  margin-top: 0.75rem;
+}
+
+.form-button {
+  max-width: 33%;
+}
+
 .jokes-layout {
   display: flex;
   flex-direction: column;
