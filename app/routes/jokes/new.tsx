@@ -1,4 +1,4 @@
-// Component: newJoke
+// Component: NewJoke
 // Handles the creation of a new joke
 // at route /jokes/new
 
