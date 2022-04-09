@@ -1,21 +1,22 @@
 import type { ActionFunction, LinksFunction } from "remix"
-import { Link, json, redirect, useSearchParams, useActionData } from "remix"
-
+import { useActionData, json, Link, useSearchParams } from "remix"
+import { login } from "~/utils/session.server"
 import { db } from "~/utils/db.server"
-import stylesUrl from "../styles/login.css"
+import stylesUrl from "~/styles/login.css"
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }]
 }
-function validatePassword(password: unknown) {
-  if (typeof password !== "string" || password.length < 6) {
-    return `That username is too short, must be at least 4 characters`
+
+function validateUsername(username: unknown) {
+  if (typeof username !== "string" || username.length < 3) {
+    return `Usernames must be at least 3 characters long`
   }
 }
 
-function validateUsername(username: unknown) {
-  if (typeof username !== "string" || username.length < 4) {
-    return `That username is too short, must be at least 4 characters`
+function validatePassword(password: unknown) {
+  if (typeof password !== "string" || password.length < 6) {
+    return `Passwords must be at least 6 characters long`
   }
 }
 
@@ -49,16 +50,14 @@ export const action: ActionFunction = async ({ request }) => {
   const username = form.get("username")
   const password = form.get("password")
   const redirectTo = validateUrl(form.get("redirectTo") || "/jokes")
-
-  // Do a type check to keep TS happy 😅
   if (
+    typeof loginType !== "string" ||
     typeof username !== "string" ||
     typeof password !== "string" ||
-    typeof loginType !== "string" ||
     typeof redirectTo !== "string"
   ) {
     return badRequest({
-      formError: "Form not filled out correctly",
+      formError: `Form not submitted correctly.`,
     })
   }
 
@@ -72,9 +71,14 @@ export const action: ActionFunction = async ({ request }) => {
 
   switch (loginType) {
     case "login": {
-      // login to get the user
-      // if there's no user, return the fields and a formError
-      // if there is a user, create their session and redirect to /jokes
+      const user = await login({ username, password })
+      console.log({ user })
+      if (!user) {
+        return badRequest({
+          fields,
+          formError: `Username/Password combination is incorrect`,
+        })
+      }
       return badRequest({
         fields,
         formError: "Not implemented",
