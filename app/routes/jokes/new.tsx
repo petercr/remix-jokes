@@ -2,15 +2,24 @@
 // Handles the creation of a new joke
 // at route /jokes/new
 
-import type { ActionFunction } from "remix"
-import { json, Form, redirect, useActionData } from "remix"
+import type { ActionFunction, LoaderFunction } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useActionData, useCatch, Link } from "@remix-run/react"
 import { db } from "~/utils/db.server"
-import { requireUserId } from "~/utils/session.server"
+import { requireUserId, getUserId } from "~/utils/session.server"
 
 import styles from "~/styles/jokes.css"
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }]
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request)
+  if (!userId) {
+    throw new Response("Unauthorized", { status: 401 })
+  }
+  return json({})
 }
 
 function validateJokeContent(content: string) {
@@ -73,7 +82,7 @@ export default function NewJoke() {
   return (
     <div className="new-joke">
       <h1 className="jokes-header">Add your own hilarious joke</h1>
-      <Form method="post">
+      <form method="post">
         <div>
           <label htmlFor="name" className="top-label">
             Name of Joke
@@ -128,9 +137,22 @@ export default function NewJoke() {
             Add Joke
           </button>
         </div>
-      </Form>
+      </form>
     </div>
   )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  if (caught.status === 401) {
+    return (
+      <div className="error-container">
+        <p>You must be logged in to create a joke.</p>
+        <Link to="/login">Login</Link>
+      </div>
+    )
+  }
 }
 
 export function ErrorBoundary() {
