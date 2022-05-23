@@ -1,4 +1,5 @@
-import { Link, useLoaderData, json, Outlet } from "remix"
+import { Link, useLoaderData, Outlet, Form } from "@remix-run/react"
+import { json } from "@remix-run/node"
 import type { LinksFunction, LoaderFunction } from "remix"
 import { db } from "~/utils/db.server"
 import { getUser } from "~/utils/session.server"
@@ -35,7 +36,12 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
+            <Link
+              to="/"
+              title="Remix Jokes"
+              aria-label="Remix Jokes"
+              prefetch="intent"
+            >
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -43,11 +49,11 @@ export default function JokesRoute() {
           {data.user ? (
             <div className="user-info">
               <span>{`Hi ${data.user.username}`}</span>
-              <form action="/logout" method="post">
+              <Form action="/logout" method="post">
                 <button type="submit" className="button">
                   Logout
                 </button>
-              </form>
+              </Form>
             </div>
           ) : (
             <Link to="/login">Login</Link>
@@ -57,7 +63,9 @@ export default function JokesRoute() {
       <main className="jokes-main">
         <div className="container">
           <div className="jokes-list">
-            <Link to=".">Get a random joke</Link>
+            <Link to="." prefetch="intent">
+              Get a random joke
+            </Link>
             <p>Here are a few more jokes to check out:</p>
             <ul>
               {data.jokeListItems.map((joke) => (
@@ -66,7 +74,7 @@ export default function JokesRoute() {
                 </li>
               ))}
             </ul>
-            <Link to="new" className="button">
+            <Link to="new" className="button" prefetch="intent">
               Add your own
             </Link>
           </div>
