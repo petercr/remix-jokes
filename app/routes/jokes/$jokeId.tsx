@@ -1,4 +1,10 @@
-import { Link, useLoaderData, useParams, useCatch } from "@remix-run/react"
+import {
+  Link,
+  Form,
+  useLoaderData,
+  useParams,
+  useCatch,
+} from "@remix-run/react"
 import { json, redirect } from "@remix-run/node"
 import { db } from "~/utils/db.server"
 import type {
@@ -8,6 +14,7 @@ import type {
 } from "@remix-run/node"
 import type { Joke } from "@prisma/client"
 import { requireUserId, getUserId } from "~/utils/session.server"
+import { JokeDisplay } from "~/components/jokes"
 
 export const meta: MetaFunction = ({
   data,
@@ -72,21 +79,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function JokeId() {
   const data = useLoaderData<LoaderData>()
-  return (
-    <div>
-      <h1>Here is your funny joke: </h1>
-      <p>{data.joke.content}</p>
-      <Link to=".">{data.joke.name} Permalink</Link>
-      {data.isOwner ? (
-        <form method="post">
-          <input type="hidden" name="_method" value="delete" />
-          <button type="submit" className="button">
-            Delete
-          </button>
-        </form>
-      ) : null}
-    </div>
-  )
+  return <JokeDisplay joke={data.joke} isOwner={data.isOwner} />
 }
 
 export function CatchBoundary() {
